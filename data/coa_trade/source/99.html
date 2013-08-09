@@ -1,0 +1,412 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head id="ctl00_Head1"><title>
+	農業統計資料查詢
+</title>
+<link href="../../library/SDWeb.css" rel="stylesheet" type="text/css">
+    <script src="./../library/SdWeb.js" type="text/javascript"></script>    
+  <link rel="SHORTCUT ICON" href="../../images/coa.ico">
+
+    <script type="text/javascript">
+        var m_objLastMenu = null;
+        var m_strLastMenuImageUrl = "";
+        var m_intLastMenuTime = 0;
+        var m_objLastSubMenu = null;
+
+        function MenuOver(objMenu, strImageUrl, strSubMenu) {
+            var objSubMenu;
+
+            if (m_intLastMenuTime != 0) {
+                clearTimeout(m_intLastMenuTime);
+                MenuOutTimeout();
+            }
+
+            if (objMenu) objMenu.src = strImageUrl;
+
+            if (strSubMenu != "") {
+                objSubMenu = document.getElementById(strSubMenu);
+                objSubMenu.style.top = String(objMenu.offsetTop + 25) + "px";
+                objSubMenu.style.left = String(objMenu.offsetLeft) + "px";
+                objSubMenu.style.display = "";
+            }
+        }
+
+        function MenuOut(objMenu, strImageUrl, strSubMenu) {
+            m_objLastMenu = objMenu;
+            m_strLastMenuImageUrl = strImageUrl;
+            m_intLastMenuTime = setTimeout("MenuOutTimeout()", 500);
+
+            if (strSubMenu == "")
+                m_objLastSubMenu = null
+            else
+                m_objLastSubMenu = document.getElementById(strSubMenu);
+        }
+
+        function MenuOutTimeout() {
+            m_intLastMenuTime = 0;
+            if (m_objLastMenu) m_objLastMenu.src = m_strLastMenuImageUrl;
+            if (m_objLastSubMenu) m_objLastSubMenu.style.display = "none";
+        }
+
+        function SubMenuOver() {
+            if (m_intLastMenuTime != 0) clearTimeout(m_intLastMenuTime);
+        }
+        function SubMenuOut() {
+            m_intLastMenuTime = setTimeout("MenuOutTimeout()", 500);
+        }
+    </script>
+
+</head>
+<body>
+    <form name="aspnetForm" method="post" action="tradereport.aspx" id="aspnetForm">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJMjcxNDI1OTM5D2QWAmYPZBYCAgMPZBYIAgEPPCsACQEADxYGHg1TZWxlY3RlZEluZGV4AgIeCERhdGFLZXlzFgAeC18hSXRlbUNvdW50AgZkFgxmD2QWAgIBDw8WAh4LTmF2aWdhdGVVcmwFGy4uL2luZGljYXRvci9JbmRpY2F0b3IuYXNweGQWAmYPDxYEHghJbWFnZVVybAUfLi4vLi4vaW1hZ2VzL21lbnVfaW5kaWNhdG9yLmdpZh4NQWx0ZXJuYXRlVGV4dAUM6L6y5qWt5oyH5qiZFgQeC29ubW91c2VvdmVyBTVNZW51T3Zlcih0aGlzLCcuLi8uLi9pbWFnZXMvbWVudV9pbmRpY2F0b3Jfcy5naWYnLCcnKR4Kb25tb3VzZW91dAUyTWVudU91dCh0aGlzLCcuLi8uLi9pbWFnZXMvbWVudV9pbmRpY2F0b3IuZ2lmJywnJylkAgEPZBYCAgEPDxYCHwMFHy4uL2NvbW1vbi9Db21tb25TdGF0aXN0aWNzLmFzcHhkFgJmDw8WBB8EBR0uLi8uLi9pbWFnZXMvbWVudV9zdGF0aWNzLmdpZh8FBQzntpzlkIjntbHoqIgWBB8GBVVNZW51T3Zlcih0aGlzLCcuLi8uLi9pbWFnZXMvbWVudV9zdGF0aWNzX3MuZ2lmJywnY3RsMDBfcmVwU3ViTWVudTFfY3RsMDFfcGFuU3ViTWVudScpHwcFUk1lbnVPdXQodGhpcywnLi4vLi4vaW1hZ2VzL21lbnVfc3RhdGljcy5naWYnLCdjdGwwMF9yZXBTdWJNZW51MV9jdGwwMV9wYW5TdWJNZW51JylkAgIPZBYCAgEPDxYCHwMFGS4uL3RyYWRlL3RyYWRlcmVwb3J0LmFzcHhkFgJmDw8WBB8EBR0uLi8uLi9pbWFnZXMvbWVudV90cmFkZV9zLmdpZh8FBQzovrLmpa3osr/mmJMWBB8GBVNNZW51T3Zlcih0aGlzLCcuLi8uLi9pbWFnZXMvbWVudV90cmFkZV9zLmdpZicsJ2N0bDAwX3JlcFN1Yk1lbnUxX2N0bDAyX3BhblN1Yk1lbnUnKR8HBVBNZW51T3V0KG51bGwsJy4uLy4uL2ltYWdlcy9tZW51X3RyYWRlLmdpZicsJ2N0bDAwX3JlcFN1Yk1lbnUxX2N0bDAyX3BhblN1Yk1lbnUnKWQCAw9kFgICAQ8PFgIfAwURLi4vYm9vay9Cb29rLmFzcHhkFgJmDw8WBB8EBRouLi8uLi9pbWFnZXMvbWVudV9ib29rLmdpZh8FBQzntbHoqIjmm7jliIoWBB8GBTBNZW51T3Zlcih0aGlzLCcuLi8uLi9pbWFnZXMvbWVudV9ib29rX3MuZ2lmJywnJykfBwUtTWVudU91dCh0aGlzLCcuLi8uLi9pbWFnZXMvbWVudV9ib29rLmdpZicsJycpZAIED2QWAgIBDw8WAh8DBRcuLi9jb21tb24vRG93bmxvYWQuYXNweGQWAmYPDxYEHwQFHi4uLy4uL2ltYWdlcy9tZW51X2Rvd25sb2FkLmdpZh8FBQnkuIvovInljYAWBB8GBTRNZW51T3Zlcih0aGlzLCcuLi8uLi9pbWFnZXMvbWVudV9kb3dubG9hZF9zLmdpZicsJycpHwcFMU1lbnVPdXQodGhpcywnLi4vLi4vaW1hZ2VzL21lbnVfZG93bmxvYWQuZ2lmJywnJylkAgUPZBYCAgEPDxYCHwMFJC4uL29mZmljaWFsL09mZmljaWFsSW5mb3JtYXRpb24uYXNweGQWAmYPDxYEHwQFHi4uLy4uL2ltYWdlcy9tZW51X09mZmljaWFsLmdpZh8FBQzlhazli5nntbHoqIgWBB8GBTRNZW51T3Zlcih0aGlzLCcuLi8uLi9pbWFnZXMvbWVudV9PZmZpY2lhbF9zLmdpZicsJycpHwcFMU1lbnVPdXQodGhpcywnLi4vLi4vaW1hZ2VzL21lbnVfT2ZmaWNpYWwuZ2lmJywnJylkAgMPFgIfAgIGFgxmDxYCHgdWaXNpYmxlaBYCAgEPZBYCAgEPFgIfAgL/////D2QCAQ9kFgICAQ8PZBYEHwYFDVN1Yk1lbnVPdmVyKCkfBwUMU3ViTWVudU91dCgpFgICAQ8WAh8CAgIWBGYPZBYCAgEPDxYEHgRUZXh0BQzluLjnlKjntbHoqIgfAwUfLi4vY29tbW9uL0NvbW1vblN0YXRpc3RpY3MuYXNweGRkAgEPZBYCAgEPDxYEHwkFDOWLleaFi+afpeipoh8DBR4uLi9pbnF1aXJ5L0lucXVpcmVBZHZhbmNlLmFzcHhkZAICD2QWAgIBDw9kFgQfBgUNU3ViTWVudU92ZXIoKR8H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">
+</div>
+
+<div>
+
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWPwL7ttTOAQLtnfH3BAL2ipPcDgKbs7UpAt/Q4LYPAuD5goMBAtWTwt0JAv645KoDAoOhhrcFAqTOmJwPAsn0uukCAtKd3fcEAveK/9wOApizkSkC39Dktg8C4PmGgwEC1ZPG3QkC/rjYqgMCg6H6twUCpM6cnA8CyfS+6QIC0p3R9wQC94rz3A4CmLOVKQLf0Ji2DwLg+bqDAQKF1riDDAKF1ryDDAKF1oCDDAKF1oSDDAKF1oiDDAKF1oyDDAKF1pCDDAKF1tSADAKF1tiADAKa1rSDDAKa1riDDAKa1ryDDAKF1qSDDAKF1qCDDAKF1pyDDAKF1piDDAKF1pSDDAKF1pCDDAKF1oyDDAKF1siADAKF1sSADAKa1qiDDAKa1qSDDAKa1qCDDAKozeyRAQKszaySAQKszZCSAQKtzaySAQKtzZCSAQKuzaySAQKuzZCSAQKvzaySAQKvzZCSAQKozaySAQLq9OjRCgLOsL6oDQLnvKS6A8/hmMjCWrrvqXOptrpeZEIcyNEs">
+</div>
+    <div id="dvTop">
+    <div style="background-image: url(../../images/banner_bg.gif);">
+        <img src="../../images/banner.jpg" alt="農業統計資料查詢">
+    </div>
+    <div style="background-image: url(../../images/menu_bg.gif); white-space: nowrap;">
+        <span id="ctl00_dtlMenu"><span>
+                <a id="ctl00_dtlMenu_ctl00_lnkMenu" href="../indicator/Indicator.aspx"><img id="ctl00_dtlMenu_ctl00_imgMenu" onmouseover="MenuOver(this,'../../images/menu_indicator_s.gif','')" onmouseout="MenuOut(this,'../../images/menu_indicator.gif','')" src="../../images/menu_indicator.gif" alt="農業指標" style="border-width:0px;"></a></span><span>
+                <a id="ctl00_dtlMenu_ctl01_lnkMenu" href="../common/CommonStatistics.aspx"><img id="ctl00_dtlMenu_ctl01_imgMenu" onmouseover="MenuOver(this,'../../images/menu_statics_s.gif','ctl00_repSubMenu1_ctl01_panSubMenu')" onmouseout="MenuOut(this,'../../images/menu_statics.gif','ctl00_repSubMenu1_ctl01_panSubMenu')" src="../../images/menu_statics.gif" alt="綜合統計" style="border-width:0px;"></a></span><span>
+                <a id="ctl00_dtlMenu_ctl02_lnkMenu" href="tradereport.aspx"><img id="ctl00_dtlMenu_ctl02_imgMenu" onmouseover="MenuOver(this,'../../images/menu_trade_s.gif','ctl00_repSubMenu1_ctl02_panSubMenu')" onmouseout="MenuOut(null,'../../images/menu_trade.gif','ctl00_repSubMenu1_ctl02_panSubMenu')" src="../../images/menu_trade_s.gif" alt="農業貿易" style="border-width:0px;"></a></span><span>
+                <a id="ctl00_dtlMenu_ctl03_lnkMenu" href="../book/Book.aspx"><img id="ctl00_dtlMenu_ctl03_imgMenu" onmouseover="MenuOver(this,'../../images/menu_book_s.gif','')" onmouseout="MenuOut(this,'../../images/menu_book.gif','')" src="../../images/menu_book.gif" alt="統計書刊" style="border-width:0px;"></a></span><span>
+                <a id="ctl00_dtlMenu_ctl04_lnkMenu" href="../common/Download.aspx"><img id="ctl00_dtlMenu_ctl04_imgMenu" onmouseover="MenuOver(this,'../../images/menu_download_s.gif','')" onmouseout="MenuOut(this,'../../images/menu_download.gif','')" src="../../images/menu_download.gif" alt="下載區" style="border-width:0px;"></a></span><span>
+                <a id="ctl00_dtlMenu_ctl05_lnkMenu" href="../official/OfficialInformation.aspx"><img id="ctl00_dtlMenu_ctl05_imgMenu" onmouseover="MenuOver(this,'../../images/menu_Official_s.gif','')" onmouseout="MenuOut(this,'../../images/menu_Official.gif','')" src="../../images/menu_Official.gif" alt="公務統計" style="border-width:0px;"></a></span></span></div>
+    
+            <div id="ctl00_repSubMenu1_ctl01_panSubMenu" onmouseover="SubMenuOver()" onmouseout="SubMenuOut()" style="position: absolute; top: 125px;
+                display: none;">
+	
+                <table cellpadding="0" cellspacing="0">
+                    <tbody><tr>
+                        <td>
+                            <img src="../../images/sub_menu_left.gif" alt=""></td>
+                        
+                                <td class="SubMenu">
+                                    <img src="../../images/sub_menu_icon.gif" alt="">
+                                    <a id="ctl00_repSubMenu1_ctl01_repSubMenu2_ctl00_lnkSubMenu" href="../common/CommonStatistics.aspx">常用統計</a>
+                                </td>
+                            
+                                <td class="SubMenu">
+                                    <img src="../../images/sub_menu_icon.gif" alt="">
+                                    <a id="ctl00_repSubMenu1_ctl01_repSubMenu2_ctl01_lnkSubMenu" href="../inquiry/InquireAdvance.aspx">動態查詢</a>
+                                </td>
+                            
+                        <td>
+                            <img src="../../images/sub_menu_right.gif" alt=""></td>
+                    </tr>
+                </tbody></table>
+            
+</div>
+        
+            <div id="ctl00_repSubMenu1_ctl02_panSubMenu" onmouseover="SubMenuOver()" onmouseout="SubMenuOut()" style="position: absolute; top: 125px;
+                display: none;">
+	
+                <table cellpadding="0" cellspacing="0">
+                    <tbody><tr>
+                        <td>
+                            <img src="../../images/sub_menu_left.gif" alt=""></td>
+                        
+                                <td class="SubMenu">
+                                    <img src="../../images/sub_menu_icon.gif" alt="">
+                                    <a id="ctl00_repSubMenu1_ctl02_repSubMenu2_ctl00_lnkSubMenu" href="TradeReport.aspx">貿易統計表</a>
+                                </td>
+                            
+                                <td class="SubMenu">
+                                    <img src="../../images/sub_menu_icon.gif" alt="">
+                                    <a id="ctl00_repSubMenu1_ctl02_repSubMenu2_ctl01_lnkSubMenu" href="TradeCcc.aspx">稅則號列(CCC)資料查詢</a>
+                                </td>
+                            
+                                <td class="SubMenu">
+                                    <img src="../../images/sub_menu_icon.gif" alt="">
+                                    <a id="ctl00_repSubMenu1_ctl02_repSubMenu2_ctl02_lnkSubMenu" href="TradeCoa.aspx">農產品別(COA)資料查詢</a>
+                                </td>
+                            
+                                <td class="SubMenu">
+                                    <img src="../../images/sub_menu_icon.gif" alt="">
+                                    <a id="ctl00_repSubMenu1_ctl02_repSubMenu2_ctl03_lnkSubMenu" href="../library/Instruction.doc">操作說明</a>
+                                </td>
+                            
+                        <td>
+                            <img src="../../images/sub_menu_right.gif" alt=""></td>
+                    </tr>
+                </tbody></table>
+            
+</div>
+        
+    <br>
+    <div style="padding: 0 0 15px 15px;">
+        <img src="../../images/title_icon.gif" style="vertical-align: middle; padding-left: 10px;
+            position: relative; top: -6px;" alt="">
+        <span id="ctl00_dtlMenuPath" class="MenuPath" style="position: relative; top: -6px;"><span>
+                農業貿易
+            </span><span>
+                &gt;
+            </span><span>
+                貿易統計表
+            </span></span><br>
+        <img src="../../images/title_line.gif" alt=""></div></div>
+    <div style="margin-left: 15px; margin-right: 10px;">
+        
+    
+
+
+
+
+        
+<table cellpadding="0" cellspacing="0" style="width: 100%;">
+    <tbody><tr>
+        <td style="width: 99%;">
+            <fieldset class="FieldSet" style="padding-top: 10px; padding-bottom: 10px;">
+                <img src="../../images/icon_yellow.jpg">
+                <span style="font-weight: bold;
+                    color: #0E72B8">資料期間：</span>民國
+                    <select name="ctl00$cphMain$uctlTradeList$uctlTradeReport11$ddlYear" id="ctl00_cphMain_uctlTradeList_uctlTradeReport11_ddlYear">
+	<option value="102">102</option>
+	<option value="101">101</option>
+	<option value="100">100</option>
+	<option selected="selected" value="099">099</option>
+	<option value="098">098</option>
+	<option value="097">097</option>
+	<option value="096">096</option>
+	<option value="095">095</option>
+	<option value="094">094</option>
+	<option value="093">093</option>
+	<option value="092">092</option>
+	<option value="091">091</option>
+	<option value="090">090</option>
+	<option value="089">089</option>
+	<option value="088">088</option>
+	<option value="087">087</option>
+	<option value="086">086</option>
+	<option value="085">085</option>
+	<option value="084">084</option>
+	<option value="083">083</option>
+	<option value="082">082</option>
+	<option value="081">081</option>
+	<option value="080">080</option>
+	<option value="079">079</option>
+	<option value="078">078</option>
+
+</select>年
+                
+                <select name="ctl00$cphMain$uctlTradeList$uctlTradeReport11$ddlMon_B" id="ctl00_cphMain_uctlTradeList_uctlTradeReport11_ddlMon_B">
+	<option selected="selected" value="01">1</option>
+	<option value="02">2</option>
+	<option value="03">3</option>
+	<option value="04">4</option>
+	<option value="05">5</option>
+	<option value="06">6</option>
+	<option value="07">7</option>
+	<option value="08">8</option>
+	<option value="09">9</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+
+</select>&nbsp;月至<select name="ctl00$cphMain$uctlTradeList$uctlTradeReport11$ddlMon_E" id="ctl00_cphMain_uctlTradeList_uctlTradeReport11_ddlMon_E">
+	<option value="01">1</option>
+	<option value="02">2</option>
+	<option value="03">3</option>
+	<option value="04">4</option>
+	<option value="05">5</option>
+	<option value="06">6</option>
+	<option value="07">7</option>
+	<option value="08">8</option>
+	<option value="09">9</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option selected="selected" value="12">12</option>
+
+</select>月&nbsp;&nbsp;&nbsp;<img src="../../images/icon_yellow.jpg"> <span style="font-weight: bold; color: #0E72B8">
+                        取前幾名：</span>
+                
+                    &nbsp;取前：<select name="ctl00$cphMain$uctlTradeList$uctlTradeReport11$ddlTopCnt" id="ctl00_cphMain_uctlTradeList_uctlTradeReport11_ddlTopCnt">
+	<option value="5">5</option>
+	<option value="10">10</option>
+	<option value="15">15</option>
+	<option value="20">20</option>
+	<option value="25">25</option>
+	<option value="30">30</option>
+	<option value="35">35</option>
+	<option value="40">40</option>
+	<option value="45">45</option>
+	<option selected="selected" value="50">50</option>
+
+</select>名
+                    &nbsp;&nbsp;&nbsp;
+                <div style="padding-top: 5px; padding-right: 20px; text-align: right;">
+                    <span class="ThreeDButton ThreeDButtonBackground" onmouseover="this.className='ThreeDButton ThreeDButtonMouseOver';" onmouseout="this.className='ThreeDButton ThreeDButtonBackground';"><span><input type="submit" name="ctl00$cphMain$uctlTradeList$uctlTradeReport11$btnQuery" value="查 詢" id="ctl00_cphMain_uctlTradeList_uctlTradeReport11_btnQuery"></span></span>
+                    &nbsp;
+                    <span class="ThreeDButton ThreeDButtonBackground" onmouseover="this.className='ThreeDButton ThreeDButtonMouseOver';" onmouseout="this.className='ThreeDButton ThreeDButtonBackground';"><span><input type="submit" name="ctl00$cphMain$uctlTradeList$uctlTradeReport11$btnExcel" value="匯出Excel檔" id="ctl00_cphMain_uctlTradeList_uctlTradeReport11_btnExcel"></span></span></div>
+
+            </fieldset>
+        </td>
+        <td id="ctl00_cphMain_uctlTradeList_uctlTradeReport11_tdBack" style="white-space: nowrap;" valign="top">
+            &nbsp;&nbsp;&nbsp;<span class="ThreeDButton ThreeDButtonBackground" onmouseover="this.className='ThreeDButton ThreeDButtonMouseOver';" onmouseout="this.className='ThreeDButton ThreeDButtonBackground';"><span><input type="submit" name="ctl00$cphMain$uctlTradeList$uctlTradeReport11$btnBack" value="回清單頁" id="ctl00_cphMain_uctlTradeList_uctlTradeReport11_btnBack"></span></span>
+        </td>
+
+    </tr>
+</tbody></table><br>
+<table id="ctl00_cphMain_uctlTradeList_uctlTradeReport11_tblTitle" width="100%">
+	<tbody><tr>
+		<td class="report_title">
+            <span id="ctl00_cphMain_uctlTradeList_uctlTradeReport11_lblTitle">與各國農產品進出口值排名資料查詢</span>
+        </td>
+	</tr>
+	<tr>
+		<td class="report_unit">
+            <span id="ctl00_cphMain_uctlTradeList_uctlTradeReport11_lblUnit">單位:千美金,%</span>
+        </td>
+	</tr>
+</tbody></table>
+
+<table id="ctl00_cphMain_uctlTradeList_uctlTradeReport11_tblTable" width="100%">
+	<tbody><tr>
+		<td valign="top">
+            <table id="ctl00_cphMain_uctlTradeList_uctlTradeReport11_tblReport" class="ReportTable" cellspacing="1" cellpadding="3" border="0" style="width:100%;">
+			<tbody><tr class="ReportHead">
+				<td align="center" valign="middle" rowspan="2" style="width:7%;">項次</td><td align="center" valign="top" colspan="3">主要農產品出口市場</td><td align="center" valign="top" colspan="3">主要農產品進口市場</td>
+			</tr><tr class="ReportHead">
+				<td align="center" valign="top" style="width:17%;">國名</td><td align="center" valign="top" style="width:17%;">出口值</td><td align="center" valign="top" style="width:11%;">比率</td><td align="center" valign="top" style="width:17%;">國名</td><td align="center" valign="top" style="width:17%;">進口值</td><td align="center" valign="top" style="width:11%;">比率</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">1</td><td class="ReportLeft" align="left" valign="middle">日　本</td><td class="ReportValue" align="right" valign="middle">909,272</td><td class="ReportValue" align="right" valign="middle">22.6</td><td class="ReportLeft" align="left" valign="middle">美　國</td><td class="ReportValue" align="right" valign="middle">3,646,505</td><td class="ReportValue" align="right" valign="middle">28.6</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">2</td><td class="ReportLeft" align="left" valign="middle">中國大陸</td><td class="ReportValue" align="right" valign="middle">532,524</td><td class="ReportValue" align="right" valign="middle">13.2</td><td class="ReportLeft" align="left" valign="middle">巴　西</td><td class="ReportValue" align="right" valign="middle">905,988</td><td class="ReportValue" align="right" valign="middle">7.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">3</td><td class="ReportLeft" align="left" valign="middle">香　港</td><td class="ReportValue" align="right" valign="middle">457,857</td><td class="ReportValue" align="right" valign="middle">11.4</td><td class="ReportLeft" align="left" valign="middle">澳大利亞</td><td class="ReportValue" align="right" valign="middle">821,650</td><td class="ReportValue" align="right" valign="middle">6.4</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">4</td><td class="ReportLeft" align="left" valign="middle">美　國</td><td class="ReportValue" align="right" valign="middle">400,763</td><td class="ReportValue" align="right" valign="middle">10.0</td><td class="ReportLeft" align="left" valign="middle">日　本</td><td class="ReportValue" align="right" valign="middle">770,645</td><td class="ReportValue" align="right" valign="middle">6.0</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">5</td><td class="ReportLeft" align="left" valign="middle">越　南</td><td class="ReportValue" align="right" valign="middle">330,536</td><td class="ReportValue" align="right" valign="middle">8.2</td><td class="ReportLeft" align="left" valign="middle">馬來西亞</td><td class="ReportValue" align="right" valign="middle">751,639</td><td class="ReportValue" align="right" valign="middle">5.9</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">6</td><td class="ReportLeft" align="left" valign="middle">泰　國</td><td class="ReportValue" align="right" valign="middle">199,865</td><td class="ReportValue" align="right" valign="middle">5.0</td><td class="ReportLeft" align="left" valign="middle">泰　國</td><td class="ReportValue" align="right" valign="middle">707,340</td><td class="ReportValue" align="right" valign="middle">5.5</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">7</td><td class="ReportLeft" align="left" valign="middle">印　尼</td><td class="ReportValue" align="right" valign="middle">182,167</td><td class="ReportValue" align="right" valign="middle">4.5</td><td class="ReportLeft" align="left" valign="middle">中國大陸</td><td class="ReportValue" align="right" valign="middle">661,680</td><td class="ReportValue" align="right" valign="middle">5.2</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">8</td><td class="ReportLeft" align="left" valign="middle">大韓民國</td><td class="ReportValue" align="right" valign="middle">149,860</td><td class="ReportValue" align="right" valign="middle">3.7</td><td class="ReportLeft" align="left" valign="middle">紐西蘭</td><td class="ReportValue" align="right" valign="middle">525,151</td><td class="ReportValue" align="right" valign="middle">4.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">9</td><td class="ReportLeft" align="left" valign="middle">馬來西亞</td><td class="ReportValue" align="right" valign="middle">85,658</td><td class="ReportValue" align="right" valign="middle">2.1</td><td class="ReportLeft" align="left" valign="middle">印　尼</td><td class="ReportValue" align="right" valign="middle">383,569</td><td class="ReportValue" align="right" valign="middle">3.0</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">10</td><td class="ReportLeft" align="left" valign="middle">新加坡</td><td class="ReportValue" align="right" valign="middle">81,173</td><td class="ReportValue" align="right" valign="middle">2.0</td><td class="ReportLeft" align="left" valign="middle">越　南</td><td class="ReportValue" align="right" valign="middle">371,072</td><td class="ReportValue" align="right" valign="middle">2.9</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">11</td><td class="ReportLeft" align="left" valign="middle">菲律賓</td><td class="ReportValue" align="right" valign="middle">77,284</td><td class="ReportValue" align="right" valign="middle">1.9</td><td class="ReportLeft" align="left" valign="middle">加拿大</td><td class="ReportValue" align="right" valign="middle">322,628</td><td class="ReportValue" align="right" valign="middle">2.5</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">12</td><td class="ReportLeft" align="left" valign="middle">加拿大</td><td class="ReportValue" align="right" valign="middle">70,035</td><td class="ReportValue" align="right" valign="middle">1.7</td><td class="ReportLeft" align="left" valign="middle">法　國</td><td class="ReportValue" align="right" valign="middle">266,870</td><td class="ReportValue" align="right" valign="middle">2.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">13</td><td class="ReportLeft" align="left" valign="middle">澳大利亞</td><td class="ReportValue" align="right" valign="middle">67,715</td><td class="ReportValue" align="right" valign="middle">1.7</td><td class="ReportLeft" align="left" valign="middle">阿根廷</td><td class="ReportValue" align="right" valign="middle">263,572</td><td class="ReportValue" align="right" valign="middle">2.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">14</td><td class="ReportLeft" align="left" valign="middle">荷　蘭</td><td class="ReportValue" align="right" valign="middle">34,921</td><td class="ReportValue" align="right" valign="middle">0.9</td><td class="ReportLeft" align="left" valign="middle">英　國</td><td class="ReportValue" align="right" valign="middle">241,617</td><td class="ReportValue" align="right" valign="middle">1.9</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">15</td><td class="ReportLeft" align="left" valign="middle">柬埔寨王國</td><td class="ReportValue" align="right" valign="middle">32,537</td><td class="ReportValue" align="right" valign="middle">0.8</td><td class="ReportLeft" align="left" valign="middle">印　度</td><td class="ReportValue" align="right" valign="middle">226,405</td><td class="ReportValue" align="right" valign="middle">1.8</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">16</td><td class="ReportLeft" align="left" valign="middle">德　國</td><td class="ReportValue" align="right" valign="middle">29,184</td><td class="ReportValue" align="right" valign="middle">0.7</td><td class="ReportLeft" align="left" valign="middle">荷　蘭</td><td class="ReportValue" align="right" valign="middle">210,870</td><td class="ReportValue" align="right" valign="middle">1.7</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">17</td><td class="ReportLeft" align="left" valign="middle">斐濟群島</td><td class="ReportValue" align="right" valign="middle">22,972</td><td class="ReportValue" align="right" valign="middle">0.6</td><td class="ReportLeft" align="left" valign="middle">大韓民國</td><td class="ReportValue" align="right" valign="middle">155,966</td><td class="ReportValue" align="right" valign="middle">1.2</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">18</td><td class="ReportLeft" align="left" valign="middle">義大利</td><td class="ReportValue" align="right" valign="middle">19,960</td><td class="ReportValue" align="right" valign="middle">0.5</td><td class="ReportLeft" align="left" valign="middle">智　利</td><td class="ReportValue" align="right" valign="middle">146,563</td><td class="ReportValue" align="right" valign="middle">1.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">19</td><td class="ReportLeft" align="left" valign="middle">沙烏地阿拉伯</td><td class="ReportValue" align="right" valign="middle">19,073</td><td class="ReportValue" align="right" valign="middle">0.5</td><td class="ReportLeft" align="left" valign="middle">德　國</td><td class="ReportValue" align="right" valign="middle">132,529</td><td class="ReportValue" align="right" valign="middle">1.0</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">20</td><td class="ReportLeft" align="left" valign="middle">南　非</td><td class="ReportValue" align="right" valign="middle">17,276</td><td class="ReportValue" align="right" valign="middle">0.4</td><td class="ReportLeft" align="left" valign="middle">義大利</td><td class="ReportValue" align="right" valign="middle">94,775</td><td class="ReportValue" align="right" valign="middle">0.7</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">21</td><td class="ReportLeft" align="left" valign="middle">烏拉圭</td><td class="ReportValue" align="right" valign="middle">16,520</td><td class="ReportValue" align="right" valign="middle">0.4</td><td class="ReportLeft" align="left" valign="middle">新加坡</td><td class="ReportValue" align="right" valign="middle">90,986</td><td class="ReportValue" align="right" valign="middle">0.7</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">22</td><td class="ReportLeft" align="left" valign="middle">印　度</td><td class="ReportValue" align="right" valign="middle">14,774</td><td class="ReportValue" align="right" valign="middle">0.4</td><td class="ReportLeft" align="left" valign="middle">秘　魯</td><td class="ReportValue" align="right" valign="middle">78,128</td><td class="ReportValue" align="right" valign="middle">0.6</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">23</td><td class="ReportLeft" align="left" valign="middle">英　國</td><td class="ReportValue" align="right" valign="middle">14,073</td><td class="ReportValue" align="right" valign="middle">0.3</td><td class="ReportLeft" align="left" valign="middle">菲律賓</td><td class="ReportValue" align="right" valign="middle">68,469</td><td class="ReportValue" align="right" valign="middle">0.5</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">24</td><td class="ReportLeft" align="left" valign="middle">帛琉群島</td><td class="ReportValue" align="right" valign="middle">13,968</td><td class="ReportValue" align="right" valign="middle">0.3</td><td class="ReportLeft" align="left" valign="middle">挪　威</td><td class="ReportValue" align="right" valign="middle">67,674</td><td class="ReportValue" align="right" valign="middle">0.5</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">25</td><td class="ReportLeft" align="left" valign="middle">模里西斯</td><td class="ReportValue" align="right" valign="middle">13,383</td><td class="ReportValue" align="right" valign="middle">0.3</td><td class="ReportLeft" align="left" valign="middle">瓜地馬拉</td><td class="ReportValue" align="right" valign="middle">66,899</td><td class="ReportValue" align="right" valign="middle">0.5</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">26</td><td class="ReportLeft" align="left" valign="middle">埃　及</td><td class="ReportValue" align="right" valign="middle">13,024</td><td class="ReportValue" align="right" valign="middle">0.3</td><td class="ReportLeft" align="left" valign="middle">緬　甸</td><td class="ReportValue" align="right" valign="middle">56,141</td><td class="ReportValue" align="right" valign="middle">0.4</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">27</td><td class="ReportLeft" align="left" valign="middle">關　島</td><td class="ReportValue" align="right" valign="middle">12,973</td><td class="ReportValue" align="right" valign="middle">0.3</td><td class="ReportLeft" align="left" valign="middle">丹　麥</td><td class="ReportValue" align="right" valign="middle">49,415</td><td class="ReportValue" align="right" valign="middle">0.4</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">28</td><td class="ReportLeft" align="left" valign="middle">孟加拉</td><td class="ReportValue" align="right" valign="middle">10,529</td><td class="ReportValue" align="right" valign="middle">0.3</td><td class="ReportLeft" align="left" valign="middle">西班牙</td><td class="ReportValue" align="right" valign="middle">44,570</td><td class="ReportValue" align="right" valign="middle">0.3</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">29</td><td class="ReportLeft" align="left" valign="middle">澳　門</td><td class="ReportValue" align="right" valign="middle">10,332</td><td class="ReportValue" align="right" valign="middle">0.3</td><td class="ReportLeft" align="left" valign="middle">墨西哥</td><td class="ReportValue" align="right" valign="middle">42,506</td><td class="ReportValue" align="right" valign="middle">0.3</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">30</td><td class="ReportLeft" align="left" valign="middle">阿拉伯聯合大公國</td><td class="ReportValue" align="right" valign="middle">9,746</td><td class="ReportValue" align="right" valign="middle">0.2</td><td class="ReportLeft" align="left" valign="middle">比利時</td><td class="ReportValue" align="right" valign="middle">41,929</td><td class="ReportValue" align="right" valign="middle">0.3</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">31</td><td class="ReportLeft" align="left" valign="middle">西班牙</td><td class="ReportValue" align="right" valign="middle">9,038</td><td class="ReportValue" align="right" valign="middle">0.2</td><td class="ReportLeft" align="left" valign="middle">巴基斯坦</td><td class="ReportValue" align="right" valign="middle">41,852</td><td class="ReportValue" align="right" valign="middle">0.3</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">32</td><td class="ReportLeft" align="left" valign="middle">法　國</td><td class="ReportValue" align="right" valign="middle">8,031</td><td class="ReportValue" align="right" valign="middle">0.2</td><td class="ReportLeft" align="left" valign="middle">奧地利</td><td class="ReportValue" align="right" valign="middle">28,217</td><td class="ReportValue" align="right" valign="middle">0.2</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">33</td><td class="ReportLeft" align="left" valign="middle">美屬薩摩亞</td><td class="ReportValue" align="right" valign="middle">7,591</td><td class="ReportValue" align="right" valign="middle">0.2</td><td class="ReportLeft" align="left" valign="middle">南　非</td><td class="ReportValue" align="right" valign="middle">26,351</td><td class="ReportValue" align="right" valign="middle">0.2</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">34</td><td class="ReportLeft" align="left" valign="middle">希　臘</td><td class="ReportValue" align="right" valign="middle">6,733</td><td class="ReportValue" align="right" valign="middle">0.2</td><td class="ReportLeft" align="left" valign="middle">瑞　士</td><td class="ReportValue" align="right" valign="middle">21,326</td><td class="ReportValue" align="right" valign="middle">0.2</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">35</td><td class="ReportLeft" align="left" valign="middle">俄羅斯</td><td class="ReportValue" align="right" valign="middle">6,504</td><td class="ReportValue" align="right" valign="middle">0.2</td><td class="ReportLeft" align="left" valign="middle">俄羅斯</td><td class="ReportValue" align="right" valign="middle">20,393</td><td class="ReportValue" align="right" valign="middle">0.2</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">36</td><td class="ReportLeft" align="left" valign="middle">千里達</td><td class="ReportValue" align="right" valign="middle">6,497</td><td class="ReportValue" align="right" valign="middle">0.2</td><td class="ReportLeft" align="left" valign="middle">尼加拉瓜</td><td class="ReportValue" align="right" valign="middle">18,542</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">37</td><td class="ReportLeft" align="left" valign="middle">紐西蘭</td><td class="ReportValue" align="right" valign="middle">6,212</td><td class="ReportValue" align="right" valign="middle">0.2</td><td class="ReportLeft" align="left" valign="middle">伊　朗</td><td class="ReportValue" align="right" valign="middle">17,810</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">38</td><td class="ReportLeft" align="left" valign="middle">斯里蘭卡</td><td class="ReportValue" align="right" valign="middle">5,835</td><td class="ReportValue" align="right" valign="middle">0.1</td><td class="ReportLeft" align="left" valign="middle">厄瓜多</td><td class="ReportValue" align="right" valign="middle">16,922</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">39</td><td class="ReportLeft" align="left" valign="middle">巴　西</td><td class="ReportValue" align="right" valign="middle">5,490</td><td class="ReportValue" align="right" valign="middle">0.1</td><td class="ReportLeft" align="left" valign="middle">哥倫比亞</td><td class="ReportValue" align="right" valign="middle">14,244</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">40</td><td class="ReportLeft" align="left" valign="middle">科威特</td><td class="ReportValue" align="right" valign="middle">5,411</td><td class="ReportValue" align="right" valign="middle">0.1</td><td class="ReportLeft" align="left" valign="middle">香　港</td><td class="ReportValue" align="right" valign="middle">14,117</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">41</td><td class="ReportLeft" align="left" valign="middle">多明尼加</td><td class="ReportValue" align="right" valign="middle">5,301</td><td class="ReportValue" align="right" valign="middle">0.1</td><td class="ReportLeft" align="left" valign="middle">孟加拉</td><td class="ReportValue" align="right" valign="middle">14,102</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">42</td><td class="ReportLeft" align="left" valign="middle">墨西哥</td><td class="ReportValue" align="right" valign="middle">5,169</td><td class="ReportValue" align="right" valign="middle">0.1</td><td class="ReportLeft" align="left" valign="middle">斯里蘭卡</td><td class="ReportValue" align="right" valign="middle">13,910</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">43</td><td class="ReportLeft" align="left" valign="middle">伊　朗</td><td class="ReportValue" align="right" valign="middle">4,960</td><td class="ReportValue" align="right" valign="middle">0.1</td><td class="ReportLeft" align="left" valign="middle">格陵蘭</td><td class="ReportValue" align="right" valign="middle">13,315</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">44</td><td class="ReportLeft" align="left" valign="middle">緬　甸</td><td class="ReportValue" align="right" valign="middle">4,635</td><td class="ReportValue" align="right" valign="middle">0.1</td><td class="ReportLeft" align="left" valign="middle">匈牙利</td><td class="ReportValue" align="right" valign="middle">12,862</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">45</td><td class="ReportLeft" align="left" valign="middle">烏克蘭</td><td class="ReportValue" align="right" valign="middle">4,418</td><td class="ReportValue" align="right" valign="middle">0.1</td><td class="ReportLeft" align="left" valign="middle">冰　島</td><td class="ReportValue" align="right" valign="middle">12,144</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">46</td><td class="ReportLeft" align="left" valign="middle">丹　麥</td><td class="ReportValue" align="right" valign="middle">3,901</td><td class="ReportValue" align="right" valign="middle">0.1</td><td class="ReportLeft" align="left" valign="middle">巴布亞紐幾內亞</td><td class="ReportValue" align="right" valign="middle">11,370</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">47</td><td class="ReportLeft" align="left" valign="middle">賽普勒斯</td><td class="ReportValue" align="right" valign="middle">3,854</td><td class="ReportValue" align="right" valign="middle">0.1</td><td class="ReportLeft" align="left" valign="middle">巴拿馬</td><td class="ReportValue" align="right" valign="middle">10,589</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">48</td><td class="ReportLeft" align="left" valign="middle">挪　威</td><td class="ReportValue" align="right" valign="middle">3,846</td><td class="ReportValue" align="right" valign="middle">0.1</td><td class="ReportLeft" align="left" valign="middle">愛爾蘭</td><td class="ReportValue" align="right" valign="middle">10,121</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">49</td><td class="ReportLeft" align="left" valign="middle">葡萄牙</td><td class="ReportValue" align="right" valign="middle">3,557</td><td class="ReportValue" align="right" valign="middle">0.1</td><td class="ReportLeft" align="left" valign="middle">葡萄牙</td><td class="ReportValue" align="right" valign="middle">9,604</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr><tr>
+				<td class="ReportCenter" align="center" valign="middle">50</td><td class="ReportLeft" align="left" valign="middle">比利時</td><td class="ReportValue" align="right" valign="middle">3,462</td><td class="ReportValue" align="right" valign="middle">0.1</td><td class="ReportLeft" align="left" valign="middle">烏克蘭</td><td class="ReportValue" align="right" valign="middle">9,417</td><td class="ReportValue" align="right" valign="middle">0.1</td>
+			</tr>
+		</tbody></table>
+        </td>
+	</tr>
+</tbody></table>
+
+
+                
+        
+        
+        
+        
+    <br>
+<table style="width: 95%; margin-left: auto; margin-right: auto;" align="center">
+    <tbody><tr>
+        <td style="white-space: normal;" align="center">
+            <span id="ctl00_cphMain_uctlTradeList_lblYM" class="lblmemo">目前公布期間至102年6月(其中6月為草本)</span>
+        </td>
+    </tr>
+    <tr>
+        <td style="white-space: normal;">
+            <span id="ctl00_cphMain_uctlTradeList_lblExplanation" class="lblmemo2">農產貿易統計資料庫異動通告<br>◎2011年以前匯入之原始資料金額係以美百元為單位，故細項資料之數據與財政部關務署資料會因四捨五入有進位之落差。<br>◎2012年1月以後匯入之原始資料金額已採美元為單位。<br>◎2012年1月始有新台幣資料。</span><br>
+        </td>
+    </tr>
+</tbody></table>
+
+    </div>
+    <br>
+    <div style="background-color: #5E7E3D; text-align: center; font-size: 9pt; color: #C5D3BA;
+        padding: 10px;" id="dvDown">
+        行政院農業委員會版權所有©2011 COA All Rights Reserved‧最佳瀏覽狀態為 IE6.0 以上‧Firefox 2.0 以上‧1024*768
+        以上解析度最佳‧
+    </div>
+    </form>
+
+
+</body></html>
